@@ -1,6 +1,10 @@
 package main.java;
 
 import main.java.Commands.*;
+import main.java.Modules.CommandHandler;
+import main.java.Modules.ConsoleApp;
+import main.java.Modules.JSONProvider;
+import main.java.Modules.PromptScanner;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -9,6 +13,23 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ConsoleApp consoleApp = createConsoleApp();
+        try {
+            var pathToCollection = System.getenv("PATH_TO_JSON");
+            if (pathToCollection.isBlank()){
+                throw new NoSuchElementException();
+            }
+            JSONProvider jsonProvider = new JSONProvider(pathToCollection);
+            jsonProvider.load();
+            System.out.println("File read successfully!");
+            System.out.println("Path to file: " + pathToCollection);
+        } catch (NullPointerException e){
+            System.out.println("No system environment variable named \"PATH_TO_JSON\" found. Bye!");
+            System.exit(1);
+        } catch (NoSuchElementException e){
+            System.out.println("Error during loading file. Bye!");
+            System.exit(1);
+        }
+
         PromptScanner.setUserScanner(new Scanner(System.in));
         var scanner = PromptScanner.getUserScanner();
 

@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Modules;
 
 import java.util.Scanner;
 public class PromptScanner {

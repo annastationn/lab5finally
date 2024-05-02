@@ -1,8 +1,4 @@
-package main.java;
-
-import main.java.OrganizationObject.Address;
-import main.java.OrganizationObject.Coordinates;
-import main.java.OrganizationObject.OrganizationType;
+package main.java.OrganizationObject;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;

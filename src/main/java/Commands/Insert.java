@@ -1,7 +1,7 @@
 package main.java.Commands;
 
-import main.java.CommandHandler;
-import main.java.ConsoleApp;
+import main.java.Modules.CommandHandler;
+import main.java.Modules.ConsoleApp;
 
 public class Insert implements Command {
     private CommandHandler commandHandler = new CommandHandler();

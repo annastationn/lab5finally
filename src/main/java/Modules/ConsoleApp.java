@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Modules;
 import main.java.Commands.Command;
 
 import java.util.LinkedHashMap;

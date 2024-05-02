@@ -1,7 +1,7 @@
 package main.java.Commands;
 
-import main.java.CommandHandler;
-import main.java.ConsoleApp;
+import main.java.Modules.CommandHandler;
+import main.java.Modules.ConsoleApp;
 
 import java.util.LinkedHashMap;
 public class Exit implements Command {

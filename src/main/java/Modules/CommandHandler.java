@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Modules;
 import main.java.Exceptions.ScriptRecursionException;
 import main.java.OrganizationObject.OrganizationType;
 
@@ -20,7 +20,7 @@ public class CommandHandler {
 
     public CommandHandler() {
         this.collectionService = new CollectionService();
-        jsonProvider = new JSONProvider();
+        jsonProvider = new JSONProvider(JSONProvider.FILE_PATH);
     }
 
     public void help(String arguments) {
@@ -130,8 +130,7 @@ public class CommandHandler {
         if (!arguments.isBlank()){
             System.out.println("Неверные аргументы команды"); // illegal args exception
         } else {
-            Writer writer = new Writer("afasdfasdf");
-            writer.write(Converter.linkedHashMapToCollection(collectionService.getCollection()));
+            jsonProvider.save(CollectionService.collection);
         }
     }
 

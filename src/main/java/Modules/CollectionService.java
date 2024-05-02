@@ -1,6 +1,7 @@
-package main.java;
+package main.java.Modules;
 
 import main.java.Exceptions.*;
+import main.java.Modules.PromptScanner;
 import main.java.OrganizationObject.*;
 
 import java.time.LocalDateTime;
