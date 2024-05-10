@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         ConsoleApp consoleApp = createConsoleApp();
         try {
+//            System.getenv("PATH_TO_JSON")
             var pathToCollection = System.getenv("PATH_TO_JSON");
             if (pathToCollection.isBlank()){
                 throw new NoSuchElementException();
@@ -51,7 +52,10 @@ public class Main {
                     if (ConsoleApp.commandList.containsKey(command)) {
                         ConsoleApp.commandList.get(command).execute(arguments);
                         CommandHandler.addCommand(command);
-                    } else {
+                    } else if (command == ""){
+                        continue;
+                    }
+                    else {
                         System.out.println("Unknown command. Keep trying...");
                     }
                     System.out.print("> ");
@@ -86,5 +90,4 @@ public class Main {
                 new FilterGreaterThanType(commandHandler)
         );
     }
-
 }

@@ -13,7 +13,7 @@ import static main.java.OrganizationObject.OrganizationType.*;
 
 public class CollectionService {
     private long maxId = 0;
-    private Set<Long> existingIds = new HashSet<>();
+    public static SortedSet<Long> existingIds = new TreeSet<>();
     protected static Long elementsCount = 0L; //объявление статической переменной elementsCount, которая используется для хранения количества элементов в коллекции.
     private Date initializationDate;
     protected static LinkedHashMap<Long, Organization> collection;
@@ -40,14 +40,26 @@ public class CollectionService {
     }
     protected record OrganizationWithOutId (String name, Coordinates coordinates, ZonedDateTime creationDate, float annualTurnover, OrganizationType organizationType, Address officialAddress) {}
 
-    public void addElement(long id) {
-        if (id > maxId) {
-            maxId = id;
+    private long getNextId() {
+        if (collection.isEmpty()) {
+            return 1;
         }
-        if (!collection.containsKey(id)) {
+        long nextId = maxId + 1;
+        for (long id = maxId + 1; id < Long.MAX_VALUE; id++) {
+            if (!collection.containsKey(id) && !existingIds.contains(id)) {
+                nextId = id;
+                break;
+            }
+        }
+        return nextId;
+    }
+
+    public void addElement(Long key) {
+        if (!collection.containsKey(key)) {
+            long nextId = getNextId();
             OrganizationWithOutId source = createElement();
             Organization newElement = new Organization(
-                    id,
+                    getNextId(),
                     source.name,
                     source.coordinates,
                     source.creationDate,
@@ -55,14 +67,41 @@ public class CollectionService {
                     source.organizationType,
                     source.officialAddress
             );
-            collection.put(id, newElement);
+            collection.put(nextId, newElement);
             System.out.println("Элемент успешно добавлен");
+            existingIds.add(nextId);
+        } else {
+            LinkedHashMap<Long,Organization> temp = new LinkedHashMap<>();
+            for (Map.Entry<Long,Organization> set : collection.entrySet()){
+                if (set.getKey() >= key){
+                    temp.put(set.getKey()+1,set.getValue());
+                }
+            }
+
+            for (Map.Entry<Long,Organization> set : temp.entrySet()){
+                collection.remove(set.getKey()-1);
+            }
+            OrganizationWithOutId source = createElement();
+            Organization newElement = new Organization(
+                    key,
+                    source.name,
+                    source.coordinates,
+                    source.creationDate,
+                    source.annualTurnover,
+                    source.organizationType,
+                    source.officialAddress
+            );
+            collection.put(key, newElement);
+            System.out.println("Элемент успешно добавлен");
+            existingIds.add(key);
+            for (Map.Entry<Long,Organization> pair : temp.entrySet()){
+                Organization o = pair.getValue();
+                o.setId(pair.getKey());
+                collection.put(pair.getKey(),o);
+                existingIds.add(pair.getKey());
+            }
         }
-        else{
-            System.out.println("Element already exists. Use update command.");
-        }
-        existingIds.add(id);
-}
+    }
     public long getMaxId() {
         return maxId;
     }
@@ -122,6 +161,7 @@ public class CollectionService {
 
         collection.remove(id);
         System.out.println("Элемент с id " + id + " успешно удалён");
+        existingIds.remove(existingIds.last());
 
         // Создаем временную карту для обновления ключей
         Map<Long, Organization> updatedCollection = new LinkedHashMap<>();

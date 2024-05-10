@@ -1,0 +1,29 @@
+[
+	{
+		"id": "1",
+		"name": "b",
+		"coordinates": "Coordinates: (x=2, y=2)",
+		"creationDate": "2024-05-08T15:27:30.935432200Z",
+		"annualTurnover": "22.0",
+		"type": "TRUST",
+		"officialAddress": "		"officialAddress": "2""
+	},
+	{
+		"id": "2",
+		"name": "a",
+		"coordinates": "Coordinates: (x=1, y=1)",
+		"creationDate": "2024-05-08T15:25:52.210359900Z",
+		"annualTurnover": "1.0",
+		"type": "TRUST",
+		"officialAddress": "		"officialAddress": "		"officialAddress": "1"""
+	},
+	{
+		"id": "3",
+		"name": "3",
+		"coordinates": "Coordinates: (x=3, y=3)",
+		"creationDate": "2024-05-08T16:50:55.266615400Z",
+		"annualTurnover": "3.0",
+		"type": "TRUST",
+		"officialAddress": "3"
+	}
+]

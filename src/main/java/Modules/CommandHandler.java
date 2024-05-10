@@ -71,16 +71,20 @@ public class CommandHandler {
         if (arguments.isBlank()) {
             System.out.println("Неверные аргументы команды"); // illegal args exception
         } else {
-            Long key = parseLong(arguments);
-            // Проверяем, что все промежуточные номера уже присутствуют в коллекции
-            for (long i = 1; i < key; i++) {
-                if (!collectionService.containsId(i)) {
-                    System.out.println("Нельзя создать объект с номером, пока не создан объект с номером " + i);
-                    return;
+            try {
+                Long key = parseLong(arguments);
+                // Проверяем, что все промежуточные номера уже присутствуют в коллекции
+                for (long i = 1; i < key; i++) {
+                    if (!collectionService.containsId(i)) {
+                        System.out.println("Нельзя создать объект с номером, пока не создан объект с номером " + i);
+                        return;
+                    }
                 }
+                // Если все промежуточные номера уже существуют, добавляем объект
+                collectionService.addElement(key);
+            } catch (NumberFormatException e){
+                System.out.println("Wrong key format");
             }
-            // Если все промежуточные номера уже существуют, добавляем объект
-            collectionService.addElement(key);
         }}
 
     public void updateById(String arguments){  //args required
@@ -267,7 +271,7 @@ public class CommandHandler {
             System.out.println("Неверные аргументы команды");
         }
         else{
-            collectionService.filterGreaterThanType(OrganizationType.valueOf(arguments));
+            collectionService.filterGreaterThanType(OrganizationType.valueOf(arguments.toUpperCase()));
         }
     }
 
